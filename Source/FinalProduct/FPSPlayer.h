@@ -22,6 +22,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Stores the projectile that is spawned on left-click.
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = Projectile)
 	TSubclassOf<AFPSProjectile> ProjectileClass;
 

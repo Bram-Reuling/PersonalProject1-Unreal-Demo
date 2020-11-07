@@ -25,8 +25,5 @@ public:
 
 	// The form of the target
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* TargetMesh;
-
-	//UFUNCTION()
-	//void NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;	
+	UStaticMeshComponent* TargetMesh;	
 };

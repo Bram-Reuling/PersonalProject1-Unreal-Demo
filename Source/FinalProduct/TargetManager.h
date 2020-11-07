@@ -1,5 +1,13 @@
 // Project made by Bram Reuling (2020)
 
+///
+/// This class is responsible for:
+/// - Spawning Targets
+/// - Timer
+///
+/// Some of the functions in this class can be
+/// accessed by the Blueprint system or UE4
+/// 
 #pragma once
 
 #include "CoreMinimal.h"
