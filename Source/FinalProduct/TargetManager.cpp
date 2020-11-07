@@ -9,14 +9,13 @@ ATargetManager::ATargetManager()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	SpawnTargets();
-
 }
 
 // Called when the game starts or when spawned
 void ATargetManager::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ATargetManager::TTimer, 1, true);
 }
 
 // Called every frame
@@ -28,6 +27,9 @@ void ATargetManager::Tick(float DeltaTime)
 
 void ATargetManager::SpawnTargets()
 {
+	TimeInSeconds = 0;
+	IsCounting = false;
+	
 	if (TargetClass)
 	{
 		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("YEET")));
@@ -54,3 +56,27 @@ int ATargetManager::GetSpawnPoints()
 {
 	return TargetPoints.Num();
 }
+
+int ATargetManager::GetTime()
+{
+	return TimeInSeconds;
+}
+
+void ATargetManager::TTimer()
+{
+	if (IsCounting)
+	{
+		++TimeInSeconds;
+	}
+}
+
+void ATargetManager::StartTimer()
+{
+	IsCounting = true;
+}
+
+void ATargetManager::StopTimer()
+{
+	IsCounting = false;
+}
+

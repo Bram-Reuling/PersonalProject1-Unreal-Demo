@@ -32,7 +32,27 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int GetSpawnPoints();
+
+	UFUNCTION(BlueprintCallable)
+	int GetTime();
+
+	UFUNCTION()
+	void TTimer();
+	
+	UFUNCTION(BlueprintCallable)
+	void StartTimer();
+
+	UFUNCTION(BlueprintCallable)
+	void StopTimer();
 	
 	UPROPERTY(EditAnywhere)
 	TArray<ATargetPoint*> TargetPoints;
+
+	UPROPERTY(VisibleAnywhere)
+	int TimeInSeconds;
+
+	UPROPERTY(VisibleAnywhere)
+	bool IsCounting;
+
+	FTimerHandle TimerHandle;
 };
