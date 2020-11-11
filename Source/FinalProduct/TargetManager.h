@@ -28,6 +28,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// Creates a property that can be edited in the editor and
+	// that can be used in Blueprints
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Target)
 	TSubclassOf<class ATarget> TargetClass;
 

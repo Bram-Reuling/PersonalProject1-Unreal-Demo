@@ -9,9 +9,13 @@ AFPSPlayer::AFPSPlayer()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Creates a component that can be attached to another component
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+
+	// Checks if the component is not a null pointer
 	check(FPSCameraComponent != nullptr);
 
+	// Attaches the FPSCameraComponent to the CapsuleComponent of the Character
 	FPSCameraComponent->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
 
 	// Position the camera slightly above the eyes.
@@ -22,11 +26,15 @@ AFPSPlayer::AFPSPlayer()
 	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
 	check(FPSMesh != nullptr);
 
+	// Can the owner see the mesh?
 	FPSMesh->SetOnlyOwnerSee(true);
 
+	// Attaches the FPSMesh to the FPSCameraComponent
 	FPSMesh->SetupAttachment(FPSCameraComponent);
 
+	// The mesh does not cast any dynamic shadows
 	FPSMesh->bCastDynamicShadow = false;
+	// The mesh does not cast any dynamic shadows
 	FPSMesh->CastShadow = false;
 
 	GetMesh()->SetOwnerNoSee(true);
@@ -51,6 +59,9 @@ void AFPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Binds the actions and axis declared in the settings of the project
+	// with the functions created in this class.
+	// For example: keys W & S calls MoveForward
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFPSPlayer::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFPSPlayer::MoveRight);
 
@@ -102,6 +113,7 @@ void AFPSPlayer::Fire()
 {
 	if (ProjectileClass)
 	{
+		// Gets the camera location and rotation
 		FVector CameraLocation;
 		FRotator CameraRotation;
 		GetActorEyesViewPoint(CameraLocation, CameraRotation);
@@ -120,6 +132,8 @@ void AFPSPlayer::Fire()
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = GetInstigator();
 
+			// Spawns a projectile of ProjectileClass at the specified location and with the specified rotation
+			// and with the spawnparams.
 			AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
 			if (Projectile)
 			{

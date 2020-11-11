@@ -11,11 +11,13 @@ AFPSProjectile::AFPSProjectile()
 
 	if (!RootComponent)
 	{
+		// Creates a component where all the other components go under.
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSceneComponent"));
 	}
 
 	if (!CollisionComponent)
 	{
+		// Creates a sphere component that takes care of the collisions
 		CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 		CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 		CollisionComponent->OnComponentHit.AddDynamic(this, &AFPSProjectile::OnHit);
@@ -25,6 +27,7 @@ AFPSProjectile::AFPSProjectile()
 
 	if (!ProjectileMovementComponent)
 	{
+		// Creates a component that takes care of the movement of the projectile
 		ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 		ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 		ProjectileMovementComponent->InitialSpeed = 10000.0f;
@@ -36,6 +39,7 @@ AFPSProjectile::AFPSProjectile()
 
 	if (!ProjectileMeshComponent)
 	{
+		// Creates a mesh for the projectile
 		ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMeshComponent"));
 		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("'/Game/Sphere.Sphere'"));
 		if (Mesh.Succeeded())
@@ -44,6 +48,7 @@ AFPSProjectile::AFPSProjectile()
 		}
 	}
 
+	// Creates a material for the projectile
 	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/SphereMaterial.SphereMaterial'"));
 	if (Material.Succeeded())
 	{
@@ -54,6 +59,7 @@ AFPSProjectile::AFPSProjectile()
 	ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 	ProjectileMeshComponent->SetupAttachment(RootComponent);
 
+	// The projectile stays in the scene for 3 seconds
 	InitialLifeSpan = 3.0f;
 }
 
@@ -73,11 +79,13 @@ void AFPSProjectile::Tick(float DeltaTime)
 
 void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 {
+	// Adds a certain velocity in a certain direction
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
 }
 
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
+	// If the projectile hits another actor, destroy the actor and the projectile
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComponent != NULL))
 	{
 		OtherActor->Destroy();

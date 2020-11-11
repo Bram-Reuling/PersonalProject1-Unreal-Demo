@@ -15,6 +15,7 @@ class FINALPRODUCT_API AFPSHUD : public AHUD
 {
 	GENERATED_BODY()
 protected:
+	// Property that holds the texture for the crosshair
 	UPROPERTY(EditDefaultsOnly)
 	UTexture2D* CrosshairTexture;
 public:
